@@ -55,6 +55,7 @@ CREATE TABLE MANGA
     author_id              int          NOT NULL,
     artist_id              int          NOT NULL,
     release_year           smallint              DEFAULT 1722,
+    description VARCHAR(255),
     translator_id          int          NOT NULL,
     add_datetime           timestamp    NOT NULL DEFAULT NOW(),
     update_datetime        timestamp    NOT NULL DEFAULT NOW(),

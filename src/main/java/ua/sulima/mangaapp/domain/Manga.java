@@ -3,6 +3,7 @@ package ua.sulima.mangaapp.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import ua.sulima.mangaapp.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,12 +24,14 @@ public class Manga {
     private String alternativeNames;
 
 //    private Integer authorId;
-
+//
 //    private Integer artistId;
+//
+//    private Long translatorId;
 
     private Short releaseYear;
 
-    private Long translatorId;
+    private String description;
 
     private LocalDateTime addDatetime;
 
@@ -40,13 +43,18 @@ public class Manga {
 
     private Boolean isApproved;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="artist_id", nullable=false)
     private Creator artist;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id", nullable=false)
     private Creator author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="translator_id", nullable=false)
+    private User translator;
 
     @Override
     public boolean equals(Object o) {

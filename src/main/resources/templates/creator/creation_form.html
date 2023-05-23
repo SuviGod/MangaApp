@@ -18,7 +18,7 @@
 <header th:insert="~{/fragments/fragments.html :: header}"></header>
 
 <div class="container d-flex align-items-center justify-content-center">
-    <form class="w-50" th:object="${new_creator}" th:action="@{/creators/new}" th:method="post" >
+    <form class="w-50" th:object="${new_creator}" th:action="@{/creators/new}" th:method="post" enctype="multipart/form-data" >
         <h2>Adding of creator</h2>
         <div class="mb-3 ">
             <label for="inputMainCreatorName" class="form-label">The main creator's name:</label>

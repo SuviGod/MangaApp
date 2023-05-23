@@ -2,11 +2,16 @@ package ua.sulima.mangaapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.sulima.mangaapp.domain.Creator;
+import ua.sulima.mangaapp.domain.Manga;
 import ua.sulima.mangaapp.service.CreatorService;
+import ua.sulima.mangaapp.service.MangaService;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -14,12 +19,18 @@ import ua.sulima.mangaapp.service.CreatorService;
 public class CreatorController {
     private final CreatorService creatorService;
 
+    private final MangaService mangaService;
 
     @GetMapping(value = "/{id}")
-    public String showCreatorById(@PathVariable("id") Integer id, Model model){
+    public String showCreatorById(@PathVariable("id") Integer id,
+                                  Pageable pageable, Model model){
         log.info("Requesting for creator with id -> {}", id);
         Creator creator = creatorService.findById(id);
         model.addAttribute("creator", creator);
+
+        Page<Manga> pageOfRelatedMangas =
+                mangaService.findAllByAuthorOrArtist(creator, pageable);
+        model.addAttribute("pageOfMangas", pageOfRelatedMangas);
         return "creator/show";
     }
 
@@ -43,8 +54,8 @@ public class CreatorController {
 
     @PostMapping("/update")
     public String updateCreator(@ModelAttribute Creator creatorToUpdate){
-        creatorService.updateCreator(creatorToUpdate);
-        return "redirect:/index";
+        Creator updatedCreator = creatorService.updateCreator(creatorToUpdate);
+        return "redirect:/creators/" + updatedCreator.getId();
     }
 
 
