@@ -3,12 +3,12 @@ package ua.sulima.mangaapp.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
-import ua.sulima.mangaapp.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name = "MANGAS" )
 @Getter
 @Setter
 @ToString
