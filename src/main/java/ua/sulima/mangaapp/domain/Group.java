@@ -1,15 +1,13 @@
 package ua.sulima.mangaapp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
+@Table(name = "GROUPS")
 @Getter
 @Setter
 @ToString
@@ -20,6 +18,12 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String groupName;
+
+    private String link1;
+
+    private String link2;
 
     @Override
     public boolean equals(Object o) {

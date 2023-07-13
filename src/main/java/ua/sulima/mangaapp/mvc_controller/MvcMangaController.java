@@ -1,4 +1,4 @@
-package ua.sulima.mangaapp.controller;
+package ua.sulima.mangaapp.mvc_controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

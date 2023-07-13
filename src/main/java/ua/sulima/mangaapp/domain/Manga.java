@@ -14,6 +14,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @Builder  @AllArgsConstructor
+
 public class Manga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,8 +54,8 @@ public class Manga {
     private Creator author;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="translator_id", nullable=false)
-    private User translator;
+    @JoinColumn(name="group_id", nullable=false)
+    private Group group;
 
     @Override
     public boolean equals(Object o) {

@@ -1,11 +1,10 @@
 package ua.sulima.mangaapp.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import ua.sulima.mangaapp.domain.Creator;
+import ua.sulima.mangaapp.exception.rest.CustomNotFoundException;
 import ua.sulima.mangaapp.repository.CreatorRepository;
 
 @Service
@@ -23,8 +22,7 @@ public class CreatorService {
     public Creator findById(Integer id){
         var maybeCreator = creatorRepository.findById(id);
         if (maybeCreator.isEmpty()){
-//            throw new IllegalStateException();
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            throw new CustomNotFoundException("Creator is not found");
         }
 
         return maybeCreator.get();

@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.sulima.mangaapp.domain.Creator;
 import ua.sulima.mangaapp.domain.Manga;
 import ua.sulima.mangaapp.dto.manga.MangaToCreateDTO;
+import ua.sulima.mangaapp.exception.rest.CustomNotFoundException;
 import ua.sulima.mangaapp.repository.CreatorRepository;
+import ua.sulima.mangaapp.repository.GroupRepository;
 import ua.sulima.mangaapp.repository.MangaRepository;
 import ua.sulima.mangaapp.service.storage.FileStorageServiceImpl;
 import ua.sulima.mangaapp.user.UserRepository;
@@ -29,6 +31,7 @@ public class MangaService {
     private final CreatorRepository creatorRepository;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @Transactional(readOnly = true)
     public Page<Manga> findAll(Pageable pageable){
@@ -44,7 +47,7 @@ public class MangaService {
     public Manga findById(Integer id){
         var maybeCreator = mangaRepository.findById(id);
         if (maybeCreator.isEmpty()){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+            throw new CustomNotFoundException("Manga is not found");
         }
 
         return maybeCreator.get();
@@ -83,9 +86,9 @@ public class MangaService {
         mangaToCreate.setArtist(
                 creatorRepository.getReferenceById(
                         mangaToCreateDTO.getArtistId()));
-        mangaToCreate.setTranslator(
-                userRepository.getReferenceById(
-                        mangaToCreateDTO.getTranslatorId()));
+        mangaToCreate.setGroup(
+                groupRepository.getReferenceById(
+                        mangaToCreateDTO.getGroupId()));
     }
 
     private void enrichNewMangaDatetimeFields(Manga mangaToCreate){

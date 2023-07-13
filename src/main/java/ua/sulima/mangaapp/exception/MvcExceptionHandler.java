@@ -3,7 +3,6 @@ package ua.sulima.mangaapp.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,8 +11,7 @@ import java.io.FileNotFoundException;
 
 
 @Slf4j
-@ControllerAdvice
-public class MyExceptionHandler {
+public class MvcExceptionHandler {
 
 //    @ExceptionHandler(value
 //            = { IllegalArgumentException.class, IllegalStateException.class })
