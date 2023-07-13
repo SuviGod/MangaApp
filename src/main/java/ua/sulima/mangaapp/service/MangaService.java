@@ -4,16 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import ua.sulima.mangaapp.domain.Creator;
 import ua.sulima.mangaapp.domain.Manga;
 import ua.sulima.mangaapp.dto.manga.MangaToCreateDTO;
 import ua.sulima.mangaapp.repository.CreatorRepository;
 import ua.sulima.mangaapp.repository.MangaRepository;
+import ua.sulima.mangaapp.service.storage.FileStorageServiceImpl;
 import ua.sulima.mangaapp.user.UserRepository;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ import java.time.LocalDateTime;
 @Transactional
 @RequiredArgsConstructor
 public class MangaService {
-    private final UploadService uploadService;
+    private final FileStorageServiceImpl fileStorageService;
 
     private final MangaRepository mangaRepository;
     private final CreatorRepository creatorRepository;
@@ -56,13 +55,13 @@ public class MangaService {
         return mangaRepository.findAllByAuthorOrArtist(creator, pageable);
     }
 
-    public Manga createManga(MangaToCreateDTO mangaToCreateDTO,
-                             MultipartFile previewImageOfManga) throws IOException {
+    public Manga createMangaWithMultipartRequest(MangaToCreateDTO mangaToCreateDTO,
+                                                 MultipartFile previewImageOfManga) throws IOException {
 
-        var mangaToCreate = modelMapper.map(mangaToCreateDTO, Manga.class);
+        var mangaToCreate = mangaToCreateDTO.convertToEntity(modelMapper);
         enrichNewManga(mangaToCreateDTO, mangaToCreate);
         Manga createdManga = mangaRepository.save(mangaToCreate);
-        Path createdImagePath = uploadService.uploadMangaPreviewImage(
+        Path createdImagePath = fileStorageService.uploadMangaPreviewImage(
                 previewImageOfManga,
                 createdManga);
         createdManga.setPreviewImagePath(createdImagePath.toString());
