@@ -20,7 +20,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/mangas")
-public class MangaController {
+public class MvcMangaController {
     private final MangaService mangaService;
     private final ModelMapper modelMapper;
 
@@ -52,7 +52,7 @@ public class MangaController {
             @ModelAttribute MangaToCreateDTO mangaToCreateDTO,
             @RequestParam("image") MultipartFile previewImageOfManga)
             throws IOException {
-        Manga createdManga = mangaService.createManga(
+        Manga createdManga = mangaService.createMangaWithMultipartRequest(
                 mangaToCreateDTO, previewImageOfManga);
         log.info(String.format("Manga with name %d successfully created", createdManga.getId() ));
         return "redirect:/mangas/" + createdManga.getId();

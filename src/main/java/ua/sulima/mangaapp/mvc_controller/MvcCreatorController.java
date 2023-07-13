@@ -1,4 +1,4 @@
-package ua.sulima.mangaapp.controller;
+package ua.sulima.mangaapp.mvc_controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import ua.sulima.mangaapp.service.MangaService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/creators")
-public class CreatorController {
+public class MvcCreatorController {
     private final CreatorService creatorService;
 
     private final MangaService mangaService;

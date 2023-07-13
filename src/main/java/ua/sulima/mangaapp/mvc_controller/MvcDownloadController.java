@@ -1,4 +1,4 @@
-package ua.sulima.mangaapp.controller;
+package ua.sulima.mangaapp.mvc_controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -7,15 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ua.sulima.mangaapp.service.DownloadService;
+import ua.sulima.mangaapp.service.storage.StorageService;
 
 import java.io.IOException;
 
 @Controller
 @RequestMapping("/uploads")
 @RequiredArgsConstructor
-public class DownloadController {
-    private final DownloadService downloadService;
+public class MvcDownloadController {
+    private final StorageService storageService;
 //    @GetMapping("/mangas/{}/")
 //    @ResponseBody
 //    public ResponseEntity<InputStreamResource> getImageDynamicType(@RequestParam("jpg") boolean jpg) {
@@ -34,7 +34,7 @@ public class DownloadController {
 //    )
 //    public @ResponseBody byte[] getPreviewMangaImage(HttpServletRequest httpServletRequest) throws IOException {
 //        InputStream in = getClass()
-//                .getResourceAsStream(UploadService.CORE_UPLOAD_DIRECTORY
+//                .getResourceAsStream(FileStorageServiceImpl.CORE_UPLOAD_DIRECTORY
 //                        + httpServletRequest.getRequestURI().replace("/", "\\"));
 //        if(in == null){
 //            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
@@ -47,6 +47,6 @@ public class DownloadController {
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public @ResponseBody byte[] getPreviewMangaImage(HttpServletRequest httpServletRequest) throws IOException {
-        return downloadService.getImageBytes(httpServletRequest.getRequestURI());
+        return storageService.getFileBytes(httpServletRequest.getRequestURI());
     }
 }
